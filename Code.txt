@@ -1,0 +1,90 @@
+-Ar dui noFi r eFi ght i ngRobotCode-* /
+#i ncl ude<Ser v o. h>
+Ser v omy ser v o;
+i ntpos=0;
+bool eanf i r e=f al se;
+/ * def i ni ngI nput s* /
+#def i neLef t _ S9 / /l ef tsensor
+#def i neRi ght _ S10 / /r i ghtsensor
+#def i neFor war d_ S8/ / f or war dsensor
+/ * def i ni ngOut put s* /
+#def i neLM12 / /l ef tmot or
+#def i neLM23 / /l ef tmot or
+#def i neRM14 / /r i ghtmot or
+#def i neRM25 / /r i ghtmot or
+#def i nepump6
+v oi dset up( )
+{
+pi nMode( Lef t _ S, I NPUT) ;
+pi nMode( Ri ght _ S, I NPUT) ;
+pi nMode( For war d_ S, I NPUT) ;
+pi nMode( LM1, OUTPUT) ;
+pi nMode( LM2, OUTPUT) ;
+pi nMode( RM1, OUTPUT) ;
+pi nMode( RM2, OUTPUT) ;
+pi nMode( pump, OUTPUT) ;
+my ser v o. at t ach( 11) ;
+my ser v o. wr i t e( 90) ;
+}
+v oi dput _ of f _ f i r e( )
+{
+del ay( 500) ;
+di gi t al Wr i t e( LM1, HI GH) ;
+di gi t al Wr i t e( LM2, HI GH) ;
+di gi t al Wr i t e( RM1, HI GH) ;
+di gi t al Wr i t e( RM2, HI GH) ;
+di gi t al Wr i t e( pump, HI GH) ; del ay ( 500) ;
+f or( pos=50; pos<=130; pos+=1){
+my ser v o. wr i t e( pos) ;
+del ay ( 10) ;
+}
+f or( pos=130; pos>=50; pos=1){
+my ser v o. wr i t e( pos) ;
+del ay ( 10) ;
+}
+di gi t al Wr i t e( pump, LOW) ;
+my ser v o. wr i t e( 90) ;
+f i r e=f al se;
+}
+v oi dl oop( )
+{
+my ser v o. wr i t e( 90) ; / / Sweep_ Ser v o( ) ;
+i f( di gi t al Read( Lef t _ S)==1&&di gi t al Read( Ri ght _ S) ==1&&di gi t al Read( For war d_ S)==1)/ / I f Fi r enotdet ect edal l sensor sar ezer o
+{
+/ / Donotmov et her obot
+di gi t al Wr i t e( LM1, HI GH) ;
+di gi t al Wr i t e( LM2, HI GH) ;
+di gi t al Wr i t e( RM1, HI GH) ;
+di gi t al Wr i t e( RM2, HI GH) ;
+}
+el sei f( di gi t al Read( For war d_ S)==0)/ / I fFi r ei sst r ai ghtahead
+{
+/ / Mov et her obotf or war d
+di gi t al Wr i t e( LM1, HI GH) ;
+di gi t al Wr i t e( LM2, LOW) ;
+di gi t al Wr i t e( RM1, HI GH) ;
+di gi t al Wr i t e( RM2, LOW) ;
+f i r e=t r ue;
+}
+el sei f( di gi t al Read( Lef t _ S)==0)/ / I fFi r ei st ot hel ef t
+{
+/ / Mov et her obotl ef t
+di gi t al Wr i t e( LM1, HI GH) ;
+di gi t al Wr i t e( LM2, LOW) ;
+di gi t al Wr i t e( RM1, HI GH) ;
+di gi t al Wr i t e( RM2, HI GH) ;
+}
+el sei f( di gi t al Read( Ri ght _ S)==0)/ / I fFi r ei st ot her i ght
+{
+/ / Mov et her obotr i ght
+di gi t al Wr i t e( LM1, HI GH) ;
+di gi t al Wr i t e( LM2, HI GH) ;
+di gi t al Wr i t e( RM1, HI GH) ;
+di gi t al Wr i t e( RM2, LOW) ;
+}
+del ay ( 300) ; / / Sl owdownt hespeedofr obot
+whi l e( f i r e==t r ue)
+{
+put _ of f _ f i r e( ) ;
+}
+}
